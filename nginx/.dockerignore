@@ -1,0 +1,4 @@
+node_modules
+snowpack/build
+
+Dockerfile

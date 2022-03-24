@@ -1,35 +1,4 @@
-<!DOCTYPE html>
+<base href="nginx/"/>
+<script>var API = 'https://proxy.hwangsehyun.com';</script>
 
-
-<html>
-
-    <head>
-        <style>
-            html {
-                padding: 0;
-            }
-
-            #mouse-position {
-                position: fixed;
-                top: 0;
-                right: 0;
-                padding: 1rem;
-                background: white;
-            }
-        </style>
-        <script type="module" src="./index.js"></script>
-    </head>
-
-    <body>
-        <span id="mouse-position"></span>
-
-        <h1>Real-Time <code>imshow</code> Viewer</h1>
-
-        <p>
-            <input type="file" onchange="Upload(this)">
-        </p>
-
-        <img id="initial" class="content" src="https://proxy.hwangsehyun.com/imshow/last">
-    </body>
-
-</html>
+<!--#include file="nginx/" -->

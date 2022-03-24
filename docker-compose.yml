@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+    express:
+        build: express
+
+    nginx:
+        build: express
+        depends_on: express

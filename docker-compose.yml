@@ -5,9 +5,14 @@ services:
         build: express
         ports:
             - 8080:8080
+        volumes:
+            - /mnt/node/utils:/mnt/node_modules/utils
+        environment:
+            - PORT=8080
 
-    nginx:
+    stream:
         build: nginx
-        depends_on: express
+        depends_on:
+            - express
         ports:
-            - 8081:80
+            - 8000:80

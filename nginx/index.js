@@ -5,18 +5,18 @@ import { MD5 } from 'https://cdn.jsdelivr.net/npm/crypto-es@1.2.7/lib/md5.js';
 import { fromStream } from './snowpack/build/index.js';
 import { onMouseMove } from './misc.js';
 
+const SUB_URL = 'ws://proxy.hwangsehyun.com/ws/imshow';
 
 const selectHashElement = hash => {
     const elements = document.querySelectorAll(`.content[data-hash="${hash}"]`);
     return elements.length ? elements[elements.length - 1] : null;
 };
 
-
 const map = new Map();
 const getDate = ({ dataset: { hash } }) => new Date(map.get(hash));
 
 
-const websocket = new WebSocket(`wss://proxy.hwangsehyun.com/stream/ws/imshow`);
+const websocket = new WebSocket(window.SUB_URL || SUB_URL);
 websocket.addEventListener('open', ({ target }) => console.log('Connected', target));
 
 websocket.addEventListener('message', ({ data }) => Promise.resolve(data)
@@ -81,6 +81,5 @@ websocket.addEventListener('message', ({ data }) => Promise.resolve(data)
         window.scrollTo(0, document.body.scrollHeight);
     })
     .catch(console.error)
-
 
 );

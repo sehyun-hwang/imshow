@@ -1,3 +1,4 @@
+const PUB_URL = 'http://localhost:8000';
 const img = document.querySelector('#initial');
 const mousePositionElement = document.querySelector('#mouse-position');
 
@@ -50,7 +51,7 @@ window.Upload = ({ files: [file] }) => {
     const { type } = file;
 
     return file.arrayBuffer()
-        .then(buffer => fetch('https://proxy.hwangsehyun.com/imshow/', {
+        .then(buffer => fetch(window.PUB_URL|| PUB_URL, {
             method: "POST",
             body: new Blob([buffer], { type }),
         }).then(res => res.ok ?

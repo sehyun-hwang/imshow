@@ -1,3 +1,4 @@
+import { userInfo as getUserInfo } from "os";
 import { createHash } from 'crypto';
 
 import { Router } from 'express';
@@ -5,7 +6,11 @@ import got from 'got';
 import { streamToBuffer } from '@jorgeferrero/stream-to-buffer';
 import { Base64Encode } from 'base64-stream';
 
-const postRequest = params => got.post('http://localhost:8081/pub?id=imshow', params);
+const { uid } = getUserInfo();
+const NGINX_PUB_URL = `http://${uid?'localhost:8081':'stream'}/pub?id=imshow`;
+console.log(NGINX_PUB_URL);
+
+const postRequest = params => got.post(NGINX_PUB_URL, params);
 
 let buffer, type;
 
@@ -37,24 +42,24 @@ export const router = Router()
             try {
                 Promise.all([
 
-                    new Promise(resolve => {
-                        const hash = createHash('md5');
-                        req.on('data', hash.update.bind(hash))
-                            .on('end', () => resolve(hash.digest('hex')));
-                    }).then(async hash => {
-                        const json = { date, hash };
-                        console.log(json);
-                        postRequest({ json });
-                        return json;
-                    }),
+                        new Promise(resolve => {
+                            const hash = createHash('md5');
+                            req.on('data', hash.update.bind(hash))
+                                .on('end', () => resolve(hash.digest('hex')));
+                        }).then(async hash => {
+                            const json = { date, hash };
+                            console.log(json);
+                            postRequest({ json });
+                            return json;
+                        }),
 
-                    new Promise(resolve => req.pipe(new Base64Encode())
-                        .pipe(postRequest({ isStream: true }))
-                        .once('finish', resolve)),
+                        new Promise(resolve => req.pipe(new Base64Encode())
+                            .pipe(postRequest({ isStream: true }))
+                            .once('finish', resolve)),
 
-                ])
+                    ])
 
-                .then(([json]) => res.json(json));
+                    .then(([json]) => res.json(json));
             }
 
             catch (error) {

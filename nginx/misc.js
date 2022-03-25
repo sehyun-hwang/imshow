@@ -1,7 +1,9 @@
-const PUB_URL = 'http://localhost:8000';
+const PUB_URL = window.PUB_URL || 'http://localhost:8080';
+export const SUB_URL = window.SUB_URL || 'ws://localhost:8000/ws/imshow';
+
 const img = document.querySelector('#initial');
 const mousePositionElement = document.querySelector('#mouse-position');
-
+console.log({PUB_URL, SUB_URL});
 
 export const onMouseMove = element => (element.contentWindow || element).addEventListener('mousemove', ({ clientX, clientY }) => {
     let { offsetWidth, offsetLeft, offsetHeight, offsetTop } = element;
@@ -51,7 +53,7 @@ window.Upload = ({ files: [file] }) => {
     const { type } = file;
 
     return file.arrayBuffer()
-        .then(buffer => fetch(window.PUB_URL|| PUB_URL, {
+        .then(buffer => fetch(PUB_URL, {
             method: "POST",
             body: new Blob([buffer], { type }),
         }).then(res => res.ok ?

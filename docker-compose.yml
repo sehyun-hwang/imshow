@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+    express:
+        image: localhost/imshow-express
+        build: express
+        ports:
+            - 8080:8080
+        #volumes:
+        #    - /mnt/node/utils:/mnt/node_modules/utils
+        environment:
+            - PORT=8080
+
+    stream:
+        image: localhost/imshow-nginx
+        build: nginx
+        depends_on:
+            - express
+        ports:
+            - 8000:80

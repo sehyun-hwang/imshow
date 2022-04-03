@@ -1,0 +1,10 @@
+{
+  "pull_request_target": {
+    "head": {
+      "ref": "act-head-ref"
+    },
+    "base": {
+      "ref": "act-base-ref"
+    }
+  }
+}

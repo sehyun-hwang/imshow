@@ -2,7 +2,7 @@ version: '3'
 
 services:
     express:
-        image: localhost/imshow-express
+        image: ${CONTAINER_REGISTRY-ghcr.io/sehyun-hwang}/imshow-express:${TAG:-latest}
         build: express
         ports:
             - 8080:8080
@@ -12,7 +12,7 @@ services:
             - PORT=8080
 
     stream:
-        image: localhost/imshow-nginx
+        image: ${CONTAINER_REGISTRY-ghcr.io/sehyun-hwang}/imshow-nginx:${TAG:-latest}
         build: nginx
         depends_on:
             - express

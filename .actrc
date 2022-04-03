@@ -1,0 +1,5 @@
+--privileged
+--container-daemon-socket /run/user/1000/podman/podman.sock
+-P ubuntu-latest=localhost/act
+--env CONTAINER_REGISTRY=nextlab.hwangsehyun.com:41443
+-s GITHUB_TOKEN

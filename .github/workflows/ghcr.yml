@@ -16,8 +16,6 @@ jobs:
   push-ghcr:
     name: Build and push image to GHCR
     runs-on: ubuntu-latest
-    permissions:
-      packages: write
 
     steps:
       - name: Echo inputs

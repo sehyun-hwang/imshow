@@ -1,12 +1,10 @@
-#https://github.com/redhat-actions/push-to-registry/blob/main/.github/workflows/ghcr-push.yaml
-
 name: Push to GHCR
 on:
   push:
-    branches:
-      - github-action-initial
+    branches-ignore:
+      - wip/*
 
-  pull_request:
+  pull_request_target:
     types: [closed]
 
 env:
@@ -16,6 +14,7 @@ jobs:
   push-ghcr:
     name: Build and push image to GHCR
     runs-on: ubuntu-latest
+    if: !github.event.pull_request_target || github.event.pull_request_target.merged
 
     steps:
       - name: Echo inputs

@@ -1,0 +1,4 @@
+--privileged
+--container-daemon-socket /run/user/1000/podman/podman.sock
+-P ubuntu-latest=localhost/act
+-s GITHUB_TOKEN

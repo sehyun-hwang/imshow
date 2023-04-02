@@ -1,9 +1,9 @@
 import { userInfo as getUserInfo } from "os";
 import { createHash } from 'crypto';
+import { buffer as stream2buffer } from 'stream/consumers';
 
 import { Router } from 'express';
 import got from 'got';
-import { streamToBuffer } from '@jorgeferrero/stream-to-buffer';
 import { Base64Encode } from 'base64-stream';
 
 const { uid } = getUserInfo();
@@ -37,7 +37,7 @@ export const router = Router()
 
             const { date } = req.query;
             type = _type;
-            streamToBuffer(req).then(_buffer => buffer = _buffer);
+            stream2buffer(req).then(_buffer => buffer = _buffer);
 
             try {
                 Promise.all([
@@ -59,7 +59,8 @@ export const router = Router()
 
                     ])
 
-                    .then(([json]) => res.json(json));
+                    .then(([json]) => res.json(json))
+                    .catch(console.log);
             }
 
             catch (error) {

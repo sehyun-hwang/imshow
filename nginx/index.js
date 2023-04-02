@@ -2,8 +2,11 @@ import WebSocket from 'https://cdn.jsdelivr.net/npm/reconnecting-websocket@4.4.0
 import { WordArray } from 'https://cdn.jsdelivr.net/npm/crypto-es@1.2.7/lib/core.js';
 import { MD5 } from 'https://cdn.jsdelivr.net/npm/crypto-es@1.2.7/lib/md5.js';
 
-import { fromStream } from './snowpack/build/index.js';
+import { fileTypeFromBuffer } from './esbuild/dist.js';
 import { onMouseMove, SUB_URL } from './misc.js';
+//import { MDCTabBar } from 'https://cdn.jsdelivr.net/npm/@material/tab-bar@14.0.0/dist/mdc.tabBar.min.js/+esm'
+
+//const tabBar = new MDCTabBar(document.querySelector('.mdc-tab-bar'));
 
 const selectHashElement = hash => {
     const elements = document.querySelectorAll(`.content[data-hash="${hash}"]`);
@@ -29,7 +32,7 @@ websocket.addEventListener('message', ({ data }) => Promise.resolve(data)
         }, () => fetch('data:image/png;base64,' + data)
 
         .then(async res => {
-            const type = await fromStream(res.clone().body)
+            const type = await fileTypeFromBuffer(await res.clone().arrayBuffer())
                 .then(result => result ? result.mime : 'image/svg+xml');
             const buffer = await res.arrayBuffer();
             const blob = new Blob([buffer], { type });
@@ -76,7 +79,7 @@ websocket.addEventListener('message', ({ data }) => Promise.resolve(data)
             }
         }
         child ? child.after(newElement) : document.body.appendChild(newElement);
-        window.scrollTo(0, document.body.scrollHeight);
+        //window.scrollTo(0, document.body.scrollHeight);
     })
     .catch(console.error)
 

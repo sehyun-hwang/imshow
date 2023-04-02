@@ -7,9 +7,13 @@
         <title>Real-Time imshow Viewer</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🖼</text></svg>">
 
+        <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@material/tab-bar@14.0.0/dist/mdc.tab-bar.min.css" />
         <style>
             html {
                 padding: 0;
+                font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
             }
 
             #mouse-position {
@@ -18,6 +22,10 @@
                 right: 0;
                 padding: 1rem;
                 background: white;
+            }
+
+            #subscription-management h3 {
+                display: inline;
             }
         </style>
         <script type="module" src="./index.js"></script>
@@ -31,6 +39,29 @@
         <p>
             <input type="file" onchange="Upload(this)">
         </p>
+
+        <section>
+            <h2>Subscription Management</h2>
+            <ul id="subscription-management">
+                <li>
+                    <h3><code>/</code></h3>
+                    <input type="checkbox" />
+                    <label for="">Append images</label>
+                    <button>Delete</button>
+                </li>
+            </ul>
+            <button></button>
+        </section>
+
+        <button class="mdc-tab" role="tab" aria-selected="false" tabindex="-1">
+            <span class="mdc-tab__content">
+                <span class="mdc-tab__text-label">Favorites</span>
+                <span class="mdc-tab-indicator">
+                    <span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+                </span>
+            </span>
+            <span class="mdc-tab__ripple"></span>
+        </button>
 
         <img id="initial" class="content" src="https://proxy.hwangsehyun.com/imshow/last">
     </body>

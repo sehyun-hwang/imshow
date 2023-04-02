@@ -1,9 +1,0 @@
-{
-    "root": "snowpack",
-    "mount": {
-        "snowpack": "/"
-    },
-    "packageOptions": {
-        "polyfillNode": true
-    }
-}

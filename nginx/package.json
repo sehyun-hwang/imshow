@@ -1,11 +1,12 @@
 {
     "type": "module",
     "scripts": {
-        "build": "snowpack build"
+        "build": "cd esbuild && esbuild lib.js --bundle --format=esm --alias:node:buffer=buffer --alias:node:stream=./mock-stream.js --outfile=./dist.js"
     },
     "devDependencies": {
-        "file-type": "^16.5.3",
-        "sanitize-html": "^2.5.1",
-        "snowpack": "^3.8.8"
+        "buffer": "^6.0.3",
+        "esbuild": "^0.17.14",
+        "file-type": "^18.2.1",
+        "sanitize-html": "^2.5.1"
     }
 }

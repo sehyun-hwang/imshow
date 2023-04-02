@@ -1,4 +1,4 @@
 node_modules
-snowpack/build
+dist.js
 
 Dockerfile

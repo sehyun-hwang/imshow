@@ -1,17 +1,15 @@
 FROM node:alpine as build
 
 WORKDIR /mnt
-COPY package.json yarn.lock ./
+COPY package.json ./
 RUN yarn
 
-COPY snowpack.config.json ./
-COPY snowpack/index.js snowpack/
-
+COPY esbuild ./esbuild
 RUN yarn build
 
 FROM shurco/nginx-push-stream-module
 
 COPY . /var/www/html
-COPY --from=build /mnt/snowpack/build /var/www/html/snowpack/build
+COPY --from=build /mnt/esbuild/dist.js /var/www/html/esbuild/dist.js
 
 LABEL org.opencontainers.image.source https://github.com/sehyun-hwang/imshow

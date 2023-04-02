@@ -4,11 +4,8 @@ on:
     branches-ignore:
       - wip/*
 
-  pull_request_target:
-    types: [closed]
-
 env:
-  TAG: ${{ github.head_ref || github.ref_name }}
+  TAG: ${{ github.ref_name }}
 
 jobs:
   push-ghcr:

@@ -17,7 +17,7 @@ let buffer, type;
 export const router = Router()
 
     .get('/', (req, res) => import('utils')
-        .then(({ MyURL }) => res.redirect(MyURL.www + '/imshow'))
+        .then(({ MyURL }) => res.redirect('/imshow'))
         .catch(error => {
             console.log(error);
             res.status(404).json(error);

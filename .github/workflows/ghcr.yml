@@ -34,5 +34,5 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push containers to GHCR
-        run: docker-compose push
+        run: docker compose push
         shell: sh

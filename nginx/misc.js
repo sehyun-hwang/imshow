@@ -1,5 +1,5 @@
-const PUB_URL = window.PUB_URL || 'http://localhost:8080';
-export const SUB_URL = window.SUB_URL || 'ws://localhost:8000/ws/imshow';
+const PUB_URL = window.PUB_URL || 'http://localhost:8889';
+export const SUB_URL = window.SUB_URL || 'ws://localhost:8888/ws/imshow';
 
 const img = document.querySelector('#initial');
 const mousePositionElement = document.querySelector('#mouse-position');

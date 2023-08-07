@@ -6,7 +6,7 @@ kill_timeout = 5
 primary_region = "nrt"
 
 [build]
-  image = "ghcr.io/sehyun-hwang/imshow-express"
+  image = "ghcr.io/sehyun-hwang/imshow-express:fly-initial"
 
 [env]
   PORT = "80"

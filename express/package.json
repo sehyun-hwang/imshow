@@ -1,12 +1,19 @@
 {
-    "type": "module",
-    "scripts": {
-        "curl": "curl --data-binary @lena.png -H 'Content-Type: image/png' localhost:8080/imshow?date=`date -Ins | sed 's/\\+/%2B/; s/\\,/\\./'`",
-        "curl-svg": "curl --data-binary @/mnt/plantym/news-title/result.svg -H 'Content-Type: image/svg+xml' localhost:8080/imshow?date=`date -Ins | sed 's/\\+/%2B/; s/\\,/\\./'`"
-    },
-    "dependencies": {
-        "base64-stream": "^1.0.0",
-        "express": "^4.17.3",
-        "got": "^12.0.2"
-    }
+  "dependencies": {
+    "@sehyun-hwang/node-utils": "0.0.1-27594edf64c0043a2cdb59dc47549e61500578cb",
+    "base64-stream": "^1.0.0",
+    "express": "^4.17.3",
+    "got": "^13.0.0"
+  },
+  "devDependencies": {
+    "globals": "^13.20.0",
+    "random-words": "^2.0.0"
+  },
+  "scripts": {
+    "start": "PORT=8889 express index.js",
+    "curl": "curl -L https://picsum.photos/200/200.jpg | curl --data-binary @- -H 'Content-Type: image/jpg' localhost:8889?date=`date -Ins | sed 's/\\+/%2B/; s/\\,/\\./'`",
+    "curl-svg": "node example-svg.js | curl -d @- -H 'Content-Type: image/svg+xml' localhost:8889?date=`date -Ins | sed 's/\\+/%2B/; s/\\,/\\./'`",
+    "lint": "ESLINT_USE_FLAT_CONFIG=true eslint index.js"
+  },
+  "type": "module"
 }

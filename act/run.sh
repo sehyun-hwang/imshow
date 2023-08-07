@@ -1,1 +1,1 @@
-echo 'secret.fish GITHUB; sleep infinity' | bash | socat - EXEC:act,pty,setsid,ctty
+echo 'secret.fish GITHUB_TOKEN; sleep infinity' | bash | socat - EXEC:act,pty,setsid,ctty

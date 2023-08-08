@@ -8,9 +8,6 @@ primary_region = "nrt"
 [build]
   image = "ghcr.io/sehyun-hwang/imshow-express:fly-initial"
 
-[env]
-  PORT = "80"
-
 [[services]]
   protocol = "tcp"
   internal_port = 80

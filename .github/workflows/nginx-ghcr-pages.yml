@@ -1,0 +1,42 @@
+name: Build and push nginx to GHCR, Deploy to Pages
+on:
+  push:
+    branches-ignore:
+      - wip/*
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-push-ghcr:
+    uses: ./.github/workflows/express-ghcr.yml
+    with:
+      tag: ${{ github.ref_name }}
+
+  deploy-pages:
+    needs: build-push-ghcr
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Export static files
+        run: >
+            mkdir -p nginx/pages
+            && docker cp $(docker create ${{ needs.build-push-ghcr.outputs.stream-image }}):/var/www/html nginx/pages
+        shell: sh
+
+      - if: ${{ !env.ACT }}
+        name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: nginx/pages
+      - if: ${{ !env.ACT }}
+        name: Deploy Pages
+        id: deployment
+        uses: actions/deploy-pages@v2

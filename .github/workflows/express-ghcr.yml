@@ -1,4 +1,5 @@
 name: Build and push express to GHCR
+
 on:
   push:
     branches-ignore:
@@ -14,12 +15,16 @@ on:
     outputs:
       stream-image:
         value: ${{ jobs.build-push-ghcr.outputs.stream-image }}
+
 jobs:
   build-push-ghcr:
     name: Build and push to GHCR
     runs-on: ubuntu-latest
     env:
       TAG: ${{ github.ref_name || inputs.tag }}
+
+    permissions:
+      packages: write
 
     steps:
       - name: Checkout

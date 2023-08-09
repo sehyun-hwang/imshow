@@ -1,5 +1,6 @@
 name: Build and push express to GHCR
 
+
 on:
   push:
     branches-ignore:
@@ -15,6 +16,7 @@ on:
     outputs:
       stream-image:
         value: ${{ jobs.build-push-ghcr.outputs.stream-image }}
+
 
 jobs:
   build-push-ghcr:

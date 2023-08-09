@@ -1,9 +1,10 @@
 name: Build and push nginx to GHCR, Deploy to Pages
+
+
 on:
   push:
     branches-ignore:
       - wip/*
-
 
 
 jobs:
@@ -26,18 +27,30 @@ jobs:
 
     steps:
       - name: Export static files
+        run: docker cp $(docker create ghcr.io/sehyun-hwang/imshow-nginx):/var/www/html /tmp/pages
+        shell: sh
+
+      - name: Set API URLs
+        working-directory: /tmp/pages
         run: >
-            mkdir -p nginx/pages
-            && docker cp $(docker create ${{ needs.build-push-ghcr.outputs.stream-image }}):/var/www/html nginx/pages
+              sed -i 's;<script src="./index.js";
+              <script>\n
+              var PUB_URL = "https://imshow-express.fly.dev"\;\n
+              var SUB_URL = "https://imshow-nginx.fly.dev/ws/imshow"\n
+              </script>\n
+              <script src="./index.js";'
+              index.html
         shell: sh
 
       - if: ${{ !env.ACT }}
         name: Setup Pages
         uses: actions/configure-pages@v3
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: nginx/pages
+          path: /tmp/pages
+
       - if: ${{ !env.ACT }}
         name: Deploy Pages
         id: deployment

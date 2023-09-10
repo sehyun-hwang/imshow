@@ -33,14 +33,14 @@ jobs:
       - name: Set API URLs
         working-directory: /tmp/pages
         run: >
-              sed -i 's;<script src="./index.js";
-              <script>\n
-              var PUB_URL = "https://imshow-express.fly.dev"\;\n
-              var SUB_URL = "https://imshow-nginx.fly.dev/ws/imshow"\n
-              </script>\n
-              <script src="./index.js";'
-              index.html
-              && grep fly.dev index.html
+            sed -i 's;<script src="./index.js";
+            <script>\n
+            var PUB_URL = "https://imshow-express.fly.dev"\;\n
+            var SUB_URL = "wss://imshow-nginx.fly.dev/ws/imshow"\;\n
+            </script>\n
+            <script src="./index.js";'
+            index.html
+            && grep fly.dev index.html
         shell: sh
 
       - if: ${{ !env.ACT }}

@@ -13,6 +13,12 @@ services:
     stream:
         image: ${CONTAINER_REGISTRY-ghcr.io/sehyun-hwang}/imshow-nginx:${TAG:-latest}
         build: nginx
+        command:
+            - sh
+            - -c
+            - >
+              sed -i 's/listen 80/listen  80;listen [::]:80/' /etc/nginx/nginx.conf
+              && /usr/local/nginx/sbin/nginx -c /etc/nginx/nginx.conf
         depends_on:
             - express
         ports:

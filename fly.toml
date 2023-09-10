@@ -5,18 +5,18 @@ kill_signal = "SIGINT"
 kill_timeout = 5
 primary_region = "nrt"
 
-http_options = { response = { headers = { "Access-Control-Allow-Origin" = "https://sehyun-hwang.github.io" } } }
 
 [build]
   image = "ghcr.io/sehyun-hwang/imshow-express:fly-initial"
 
 [env]
-  NGINX_HOST = imshow-nginx.internal
+  NGINX_HOST = "imshow-nginx.internal"
 
 [[services]]
   protocol = "tcp"
   internal_port = 80
   processes = ["app"]
+
 
   [[services.ports]]
     port = 80
@@ -26,7 +26,11 @@ http_options = { response = { headers = { "Access-Control-Allow-Origin" = "https
   [[services.ports]]
     port = 443
     handlers = ["tls", "http"]
+
   [services.concurrency]
     type = "connections"
     hard_limit = 25
     soft_limit = 20
+
+[services.ports.http_options.response.headers]
+  Access-Control-Allow-Origin = "https://sehyun-hwang.github.io"

@@ -1,14 +1,12 @@
 /* eslint-disable import/prefer-default-export */
 import { createHash } from 'crypto';
-import { userInfo as getUserInfo } from 'os';
 import { buffer as stream2buffer } from 'stream/consumers';
 
 import { Base64Encode } from 'base64-stream';
 import { Router } from 'express';
 import got from 'got';
 
-const { uid } = getUserInfo();
-const NGINX_PUB_URL = `http://${uid ? 'localhost:8081' : 'stream'}/pub?id=imshow`;
+const NGINX_PUB_URL = `http://${process.env.NGINX_HOST || 'stream'}/pub?id=imshow`;
 console.log(NGINX_PUB_URL);
 
 const postRequest = params => got.post(NGINX_PUB_URL, params);

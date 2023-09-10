@@ -10,6 +10,9 @@ http_options = { response = { headers = { "Access-Control-Allow-Origin" = "https
 [build]
   image = "ghcr.io/sehyun-hwang/imshow-express:fly-initial"
 
+[env]
+  NGINX_HOST = imshow-nginx.internal
+
 [[services]]
   protocol = "tcp"
   internal_port = 80

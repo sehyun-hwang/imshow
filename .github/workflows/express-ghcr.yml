@@ -5,6 +5,9 @@ on:
   push:
     branches-ignore:
       - wip/*
+    paths:
+      - express/**
+
   workflow_call:
     inputs:
       service-name:

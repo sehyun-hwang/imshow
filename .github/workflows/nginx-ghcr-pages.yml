@@ -5,7 +5,8 @@ on:
   push:
     branches-ignore:
       - wip/*
-
+    paths:
+      - nginx/**
 
 jobs:
   build-push-ghcr:

@@ -1,0 +1,64 @@
+name: Build and push express to GHCR
+
+
+on:
+  push:
+    branches-ignore:
+      - wip/*
+    paths:
+      - express/**
+
+  workflow_call:
+    inputs:
+      service-name:
+        default: stream
+        type: string
+      tag:
+        required: true
+        type: string
+    outputs:
+      stream-image:
+        value: ${{ jobs.build-push-ghcr.outputs.stream-image }}
+
+
+jobs:
+  build-push-ghcr:
+    name: Build and push to GHCR
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.ref_name || inputs.tag }}
+
+    permissions:
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: docker compose config
+        id: docker-compose-config
+        run: >
+            echo -n stream-image= >> "$GITHUB_OUTPUT"
+            && docker compose config --format json | jq .services.stream.image >> "$GITHUB_OUTPUT"
+        shell: sh
+
+      - name: Build a container
+        run: docker compose build ${{ inputs.service-name || 'express' }}
+        shell: sh
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - if: ${{ !env.ACT }}
+        name: Login to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push a container to GHCR
+        run: docker compose push ${{ inputs.service-name || 'express'}}
+        shell: sh
+
+    outputs:
+      stream-image: ${{ steps.docker-compose-config.outputs.stream-image }}

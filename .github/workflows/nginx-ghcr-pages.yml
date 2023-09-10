@@ -1,0 +1,59 @@
+name: Build and push nginx to GHCR, Deploy to Pages
+
+
+on:
+  push:
+    branches-ignore:
+      - wip/*
+    paths:
+      - nginx/**
+
+jobs:
+  build-push-ghcr:
+    uses: ./.github/workflows/express-ghcr.yml
+    with:
+      tag: ${{ github.ref_name }}
+
+  deploy-pages:
+    needs: build-push-ghcr
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Export static files
+        run: docker cp $(docker create ${{ needs.build-push-ghcr.outputs.stream-image }}):/var/www/html /tmp/pages
+        shell: sh
+
+      - name: Set API URLs
+        working-directory: /tmp/pages
+        run: >
+            sed -i 's;<script src="./index.js";
+            <script>\n
+            var PUB_URL = "https://imshow-express.fly.dev"\;\n
+            var SUB_URL = "wss://imshow-nginx.fly.dev/ws/imshow"\;\n
+            </script>\n
+            <script src="./index.js";'
+            index.html
+            && grep fly.dev index.html
+        shell: sh
+
+      - if: ${{ !env.ACT }}
+        name: Setup Pages
+        uses: actions/configure-pages@v3
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: /tmp/pages
+
+      - if: ${{ !env.ACT }}
+        name: Deploy Pages
+        id: deployment
+        uses: actions/deploy-pages@v2

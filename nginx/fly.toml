@@ -1,0 +1,22 @@
+# fly.toml app configuration file generated for imshow-nginx on 2023-08-07T15:21:45Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "imshow-nginx"
+primary_region = "nrt"
+
+[build]
+  image = "shurco/nginx-push-stream-module"
+
+[http_service]
+  internal_port = 80
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
+
+
+[experimental]
+cmd = [ "sh", "-c", "sed -i 's/listen 80/listen  80;listen [::]:80/' /etc/nginx/nginx.conf && /usr/local/nginx/sbin/nginx -c /etc/nginx/nginx.conf" ]

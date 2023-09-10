@@ -3,18 +3,27 @@ version: '3'
 services:
     express:
         image: ${CONTAINER_REGISTRY-ghcr.io/sehyun-hwang}/imshow-express:${TAG:-latest}
-        build: express
+        build:
+            context: express
+            secrets:
+                - NODE_AUTH_TOKEN
         ports:
-            - 8080:8080
-        #volumes:
-        #    - /mnt/node/utils:/mnt/node_modules/utils
-        environment:
-            - PORT=8080
+            - ${EXPRESS_PORT-8889}:80
 
     stream:
         image: ${CONTAINER_REGISTRY-ghcr.io/sehyun-hwang}/imshow-nginx:${TAG:-latest}
         build: nginx
+        command:
+            - sh
+            - -c
+            - >
+              sed -i 's/listen 80/listen  80;listen [::]:80/' /etc/nginx/nginx.conf
+              && /usr/local/nginx/sbin/nginx -c /etc/nginx/nginx.conf
         depends_on:
             - express
         ports:
-            - 8000:80
+            - ${NGINX_PORT-8888}:80
+
+secrets:
+    NODE_AUTH_TOKEN:
+        environment: NODE_AUTH_TOKEN

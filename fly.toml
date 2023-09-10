@@ -5,6 +5,8 @@ kill_signal = "SIGINT"
 kill_timeout = 5
 primary_region = "nrt"
 
+http_options = { response = { headers = { "Access-Control-Allow-Origin" = "https://sehyun-hwang.github.io" } } }
+
 [build]
   image = "ghcr.io/sehyun-hwang/imshow-express:fly-initial"
 

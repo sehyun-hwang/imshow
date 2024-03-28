@@ -7,6 +7,6 @@
         "buffer": "^6.0.3",
         "esbuild": "^0.17.14",
         "file-type": "^18.2.1",
-        "sanitize-html": "^2.5.1"
+        "sanitize-html": "^2.12.1"
     }
 }
